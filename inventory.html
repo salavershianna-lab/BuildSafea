@@ -1,53 +1,84 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BuildSafe DIHS - Inventory</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <title>
+        BuildSafe DIHS - Inventory
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
 </head>
+
 
 <body>
 
 <div class="dashboard">
 
+
     <!-- SIDEBAR -->
+
     <aside class="inventory-sidebar">
 
-        <h2>BuildSafe DIHS</h2>
+        <h2>
+            BuildSafe DIHS
+        </h2>
 
-        <p>Digital Classroom Inventory System</p>
+        <p>
+            Digital Classroom Inventory System
+        </p>
+
 
         <button>
             Inventory
         </button>
 
-        <button onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
+
+        <button
+            onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
+
             Reports
+
         </button>
 
-        <button onclick="logout()">
+
+        <button
+            onclick="logout()">
+
             Logout
+
         </button>
 
     </aside>
 
 
+
     <!-- MAIN INVENTORY PAGE -->
+
     <div class="inventory-page">
 
 
         <!-- ROOM INFORMATION -->
+
         <div class="room-info-box">
 
             <div class="inventory-header">
 
                 <div>
 
-                    <h1 id="roomTitle">Room 18</h1>
+                    <h1 id="roomTitle">
+                        Room 18
+                    </h1>
 
                     <p id="roomAdviser">
                         Building 17 | Room Adviser: Teacher Name
@@ -55,14 +86,20 @@
 
                 </div>
 
-                <button onclick="window.location.href='dashboard.html'">
+
+                <button
+                    onclick="window.location.href='dashboard.html'">
+
                     ← Back to Dashboard
+
                 </button>
 
             </div>
 
 
+
             <!-- ROOM PHOTO -->
+
             <div class="room-photo-section">
 
                 <img
@@ -72,11 +109,15 @@
                     class="room-photo"
                 >
 
+
                 <label
                     for="photoInput"
                     class="change-photo">
+
                     Change Photo
+
                 </label>
+
 
                 <input
                     type="file"
@@ -92,10 +133,15 @@
 
 
 
-        <!-- CLASSROOM INVENTORY -->
+        <!-- =================================================
+             CLASSROOM INVENTORY
+        ================================================= -->
+
         <div class="inventory-section">
 
-            <h2>Classroom Inventory</h2>
+            <h2>
+                Classroom Inventory
+            </h2>
 
 
             <div class="table-wrap">
@@ -105,227 +151,31 @@
                     <thead>
 
                         <tr>
-                            <th>Item</th>
-                            <th>Quantity</th>
-                            <th>Damage / Defect</th>
-                            <th>Status</th>
+
+                            <th>
+                                Item
+                            </th>
+
+                            <th>
+                                Quantity
+                            </th>
+
+                            <th>
+                                Damage / Defect
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
                         </tr>
 
                     </thead>
 
 
-                    <tbody>
+                    <tbody id="inventoryTableBody">
 
-
-                        <!-- ARMCHAIRS -->
-                        <tr data-item="Armchairs">
-
-                            <td>Armchairs</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="30"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="2 broken"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Good
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- TABLES -->
-                        <tr data-item="Tables">
-
-                            <td>Tables</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="5"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="None"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Good
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- DOOR -->
-                        <tr data-item="Door">
-
-                            <td>Door</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="1"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="Lock damaged"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Needs Repair
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- WINDOWS -->
-                        <tr data-item="Windows">
-
-                            <td>Windows</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="8"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="2 broken panes"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Needs Repair
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- LIGHTS -->
-                        <tr data-item="Lights">
-
-                            <td>Lights</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="6"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="None"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Good
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- ELECTRICAL OUTLETS -->
-                        <tr data-item="Electrical Outlets">
-
-                            <td>Electrical Outlets</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="4"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="1 defective"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Needs Repair
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <!-- ELECTRIC FANS -->
-                        <tr data-item="Electric Fans">
-
-                            <td>Electric Fans</td>
-
-                            <td>
-                                <input
-                                    type="number"
-                                    value="4"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    value="1 not working"
-                                    disabled
-                                >
-                            </td>
-
-                            <td>
-                                <span class="status locked">
-                                    Damaged
-                                </span>
-                            </td>
-
-                        </tr>
-
+                        <!-- Inventory items will be loaded by app.js -->
 
                     </tbody>
 
@@ -334,20 +184,27 @@
             </div>
 
 
+
             <!-- INVENTORY BUTTONS -->
+
             <div class="inventory-actions">
 
                 <button
                     id="updateInventoryButton"
                     onclick="enableInventoryEdit()">
+
                     Update Inventory
+
                 </button>
+
 
                 <button
                     id="saveInventoryButton"
-                    onclick="saveInventory()"
+                    onclick="saveInventoryChanges()"
                     style="display: none;">
+
                     Save Changes
+
                 </button>
 
             </div>
@@ -356,12 +213,79 @@
 
 
 
-        <!-- REPORT SECTION -->
+        <!-- =================================================
+             MAINTENANCE HISTORY
+        ================================================= -->
+
+        <div class="maintenance-list">
+
+            <h2>
+                Maintenance History
+            </h2>
+
+
+            <div class="maintenance-table-wrap">
+
+                <table class="maintenance-history-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Defect Item
+                            </th>
+
+                            <th>
+                                Quantity
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Last Updated
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="maintenanceReports">
+
+                        <tr>
+
+                            <td colspan="4">
+                                No maintenance history for this room yet.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             REPORT SECTION
+        ================================================= -->
+
         <div
             class="inventory-section"
             id="reportSection">
 
-            <h2>Report a Classroom Defect</h2>
+
+            <h2>
+                Report a Classroom Defect
+            </h2>
+
 
             <p>
                 Teachers and Room Advisers can report
@@ -369,39 +293,69 @@
             </p>
 
 
+
             <form
                 id="reportForm"
-                onsubmit="submitReport(event)"
-            >
+                onsubmit="submitReport(event)">
+
 
                 <!-- ITEM -->
+
                 <label for="reportItem">
                     Item / Facility
                 </label>
 
-                <select id="reportItem" required>
+
+                <select
+                    id="reportItem"
+                    required>
 
                     <option value="">
                         Select item
                     </option>
 
-                    <option>Armchairs</option>
-                    <option>Tables</option>
-                    <option>Door</option>
-                    <option>Windows</option>
-                    <option>Lights</option>
-                    <option>Electrical Outlets</option>
-                    <option>Electric Fans</option>
-                    <option>Other</option>
+                    <option>
+                        Armchairs
+                    </option>
+
+                    <option>
+                        Tables
+                    </option>
+
+                    <option>
+                        Door
+                    </option>
+
+                    <option>
+                        Windows
+                    </option>
+
+                    <option>
+                        Lights
+                    </option>
+
+                    <option>
+                        Electrical Outlets
+                    </option>
+
+                    <option>
+                        Electric Fans
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
 
                 </select>
 
 
 
                 <!-- QUANTITY -->
+
                 <label for="reportQuantity">
                     Quantity Affected
                 </label>
+
 
                 <input
                     type="number"
@@ -414,43 +368,64 @@
 
 
                 <!-- TYPE -->
+
                 <label for="reportType">
                     Type of Concern
                 </label>
 
-                <select id="reportType" required>
+
+                <select
+                    id="reportType"
+                    required>
 
                     <option value="">
                         Select concern
                     </option>
 
-                    <option>Damaged</option>
-                    <option>Broken</option>
-                    <option>Missing</option>
-                    <option>Safety Concern</option>
-                    <option>Other</option>
+                    <option>
+                        Damaged
+                    </option>
+
+                    <option>
+                        Broken
+                    </option>
+
+                    <option>
+                        Missing
+                    </option>
+
+                    <option>
+                        Safety Concern
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
 
                 </select>
 
 
 
                 <!-- DESCRIPTION -->
+
                 <label for="reportDescription">
                     Description
                 </label>
 
+
                 <textarea
                     id="reportDescription"
                     placeholder="Describe the problem..."
-                    required
-                ></textarea>
+                    required></textarea>
 
 
 
                 <!-- PHOTO -->
+
                 <label for="reportPhoto">
                     Attach Photo
                 </label>
+
 
                 <input
                     type="file"
@@ -461,37 +436,38 @@
 
 
                 <!-- BUTTONS -->
+
                 <div class="defect-buttons">
 
-                    <button type="submit">
+                    <button
+                        type="submit">
+
                         Submit Report
+
                     </button>
+
 
                     <button
                         type="button"
                         onclick="document.getElementById('reportForm').reset()">
+
                         Cancel
+
                     </button>
-
-                <div class="maintenance-list">
-
-    <h2>Maintenance Reports</h2>
-
-    <div id="maintenanceReports">
-        <p>No classroom reports yet.</p>
-    </div>
-
-</div>
 
                 </div>
 
+
             </form>
 
+
         </div>
+
 
     </div>
 
 </div>
+
 
 
 <script src="app.js"></script>
