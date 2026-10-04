@@ -1367,110 +1367,54 @@ function loadHeadReports() {
         );
 }
 
-
-/* =========================================================
-   UPDATE REPORT BADGES
-========================================================= */
-
 function updateReportRoomBadges() {
 
-    const reports =
-        getReports();
-
-
-    const rooms =
-        ["18", "19", "20"];
-
+    const reports = getReports();
+    const rooms = ["18", "19", "20"];
 
     let newCount = 0;
 
+    rooms.forEach(function (room) {
 
-    rooms.forEach(
-        function (room) {
+        const badge = document.getElementById("newUpdate" + room);
 
-            const badge =
-                document.getElementById(
-                    "newUpdate" + room
-                );
+        if (!badge) return;
 
+        const roomReports = reports.filter(function (report) {
+            return String(report.roomNumber) === String(room);
+        });
 
-            if (!badge) return;
-
-
-            const roomReports =
-                reports.filter(
-                    function (report) {
-
-                        return String(
-                            report.roomNumber
-                        ) === room;
-
-                    }
-                );
-
-
-            if (roomReports.length > 0) {
-
-                roomReports.sort(
-                    function (a, b) {
-
-                        return new Date(
-                            b.dateReported
-                        ) -
-                        new Date(
-                            a.dateReported
-                        );
-
-                    }
-                );
-
-
-                const latest =
-                    roomReports[0];
-
-
-                if (
-                    latest.verification ===
-                    "Pending Verification"
-                ) {
-
-                    badge.style.display =
-                        "inline-block";
-
-                    newCount++;
-
-                } else {
-
-                    badge.style.display =
-                        "none";
-
-                }
-
-            } else {
-
-                badge.style.display =
-                    "none";
-
-            }
-
+        if (roomReports.length === 0) {
+            badge.style.display = "none";
+            return;
         }
-    );
 
+        roomReports.sort(function (a, b) {
+            return new Date(b.dateReported) - new Date(a.dateReported);
+        });
 
-    const totalBadge =
-        document.getElementById(
-            "newReportBadge"
-        );
+        const latest = roomReports[0];
 
+        if (latest.verification === "Pending Verification") {
+
+            badge.textContent = "NEW UPDATE";
+            badge.style.display = "inline-block";
+
+            newCount++;
+
+        } else {
+
+            badge.style.display = "none";
+        }
+    });
+
+    const totalBadge = document.getElementById("newReportBadge");
 
     if (totalBadge) {
-
-        totalBadge.textContent =
-            newCount + " New Updates";
-
+        totalBadge.textContent = newCount + " New Updates";
     }
-}
 
+}
 
 /* =========================================================
    SCHOOL HEAD SUMMARY
