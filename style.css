@@ -35,16 +35,19 @@ body {
 .welcome-box h1 {
     margin-bottom: 10px;
     font-size: 32px;
+    font-family:Georgia, 'Times New Roman', Times, serif
 }
 
 .subtitle {
     margin-bottom: 30px;
     font-size: 18px;
+    font-family:sans-serif;
 }
 
 .question {
     line-height: 1.5;
     margin-bottom: 25px;
+
 }
 
 .account-option {
@@ -52,8 +55,11 @@ body {
 }
 
 .account-option h2 {
-    font-size: 18px;
+    font-size: 15px;
     margin-bottom: 10px;
+    font-family:Arial, Helvetica, sans-serif
+    align-items; left:---
+
 }
 
 .account-option input {
@@ -64,16 +70,18 @@ body {
     font-size: 15px;
 }
 
-.account-box button {
-    width: 80%;
-    padding: 12px;
+.account-option button {
+    width: 70%;
+    padding: 6px;
     margin-top: 15px;
+    margin-bottom: 15px;
     border: none;
     border-radius: 8px;
     background-color: #61664D;
     color: white;
     font-size: 15px;
     cursor: pointer;
+
 }
 
 
@@ -116,7 +124,7 @@ body {
     margin: 0 0 30px;
     font-family: Arial;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .sidebar nav {
@@ -435,6 +443,37 @@ body {
     color: #555;
 }
 
+.inventory-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.inventory-status.scheduled {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.inventory-status.in-progress {
+    background-color: #cfe2ff;
+    color: #084298;
+}
+
+.inventory-status.completed {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.inventory-status.pending-verification {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.inventory-status.no-report {
+    background-color: #e9ecef;
+    color: #6c757d;
+}
 
 /* =========================
    INVENTORY BUTTONS

@@ -1,18 +1,29 @@
-/* =========================================================
-   BUILDSAFE DIHS - MAIN JAVASCRIPT
-========================================================= */
-
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
 function schoolHeadLogin() {
-    window.location.href = "dashboard-head.html";
+
+    sessionStorage.setItem(
+        "buildSafeRole",
+        "schoolHead"
+    );
+
+    window.location.href =
+        "dashboard-head.html";
 }
 
+
 function teacherAdviserLogin() {
-    window.location.href = "dashboard.html";
+
+    sessionStorage.setItem(
+        "buildSafeRole",
+        "teacher"
+    );
+
+    window.location.href =
+        "dashboard.html";
 }
 
 
@@ -21,30 +32,84 @@ function teacherAdviserLogin() {
 ========================================================= */
 
 function Dashboard() {
-    const currentPage = window.location.pathname;
 
-    if (currentPage.includes("dashboard-head")) {
-        window.location.href = "dashboard-head.html";
+    const role =
+        sessionStorage.getItem(
+            "buildSafeRole"
+        );
+
+    if (role === "schoolHead") {
+
+        window.location.href =
+            "dashboard-head.html";
+
     } else {
-        window.location.href = "dashboard.html";
+
+        window.location.href =
+            "dashboard.html";
+
     }
 }
 
+
 function Classroom() {
-    window.location.href = "dashboard.html";
+
+    const role =
+        sessionStorage.getItem(
+            "buildSafeRole"
+        );
+
+    if (role === "schoolHead") {
+
+        window.location.href =
+            "dashboard-head.html";
+
+    } else {
+
+        window.location.href =
+            "dashboard-head.html";
+
+    }
 }
+
 
 function Reports() {
-    window.location.href = "reports.html";
+
+    const role =
+        sessionStorage.getItem(
+            "buildSafeRole"
+        );
+
+    if (!role) {
+
+        sessionStorage.setItem(
+            "buildSafeRole",
+            "teacher"
+        );
+
+    }
+
+    window.location.href =
+        "reports.html";
 }
+
 
 function openReport(room) {
+
     window.location.href =
-        "reports-inside.html?room=" + room;
+        "reports-inside.html?room=" +
+        room;
 }
 
+
 function logout() {
-    window.location.href = "index.html";
+
+    sessionStorage.removeItem(
+        "buildSafeRole"
+    );
+
+    window.location.href =
+        "index.html";
 }
 
 
@@ -55,25 +120,33 @@ function logout() {
 function searchDashboard() {
 
     const input =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
     if (!input) return;
 
     const search =
-        input.value.toLowerCase().trim();
+        input.value
+            .toLowerCase()
+            .trim();
 
     const rooms =
-        document.querySelectorAll(".room-card");
+        document.querySelectorAll(
+            ".room-card"
+        );
 
     rooms.forEach(function (room) {
 
         const text =
-            room.innerText.toLowerCase();
+            room.innerText
+                .toLowerCase();
 
         room.style.display =
             text.includes(search)
                 ? ""
                 : "none";
+
     });
 }
 
@@ -85,25 +158,33 @@ function searchDashboard() {
 function searchHeadDashboard() {
 
     const input =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
     if (!input) return;
 
     const search =
-        input.value.toLowerCase().trim();
+        input.value
+            .toLowerCase()
+            .trim();
 
     const rooms =
-        document.querySelectorAll(".room-card");
+        document.querySelectorAll(
+            ".room-card"
+        );
 
     rooms.forEach(function (room) {
 
         const text =
-            room.innerText.toLowerCase();
+            room.innerText
+                .toLowerCase();
 
         room.style.display =
             text.includes(search)
                 ? ""
                 : "none";
+
     });
 }
 
@@ -115,7 +196,8 @@ function searchHeadDashboard() {
 function openInventory(room) {
 
     window.location.href =
-        "inventory.html?room=" + room;
+        "inventory.html?room=" +
+        room;
 }
 
 
@@ -128,7 +210,9 @@ const roomInventory = {
     "18": {
 
         room: "Room 18",
+
         building: "Building 17",
+
         adviser: "Teacher A",
 
         photo:
@@ -138,54 +222,57 @@ const roomInventory = {
 
             {
                 item: "Armchairs",
-                quantity: 30,
-                damage: "2 broken"
+                quantity: 40,
+                damage: "2"
             },
 
             {
                 item: "Tables",
-                quantity: 5,
+                quantity: 20,
                 damage: "None"
             },
 
             {
                 item: "Door",
-                quantity: 1,
-                damage: "Lock damaged"
+                quantity: 2,
+                damage: "1"
             },
 
             {
                 item: "Windows",
                 quantity: 8,
-                damage: "2 broken panes"
+                damage: "2"
             },
 
             {
                 item: "Lights",
                 quantity: 6,
-                damage: "None"
+                damage: "1"
             },
 
             {
                 item: "Electrical Outlets",
                 quantity: 4,
-                damage: "1 defective"
+                damage: "1"
             },
 
             {
                 item: "Electric Fans",
-                quantity: 4,
-                damage: "1 not working"
+                quantity: 5,
+                damage: "1"
             }
 
         ]
+
     },
 
 
     "19": {
 
         room: "Room 19",
+
         building: "Building 17",
+
         adviser: "Teacher B",
 
         photo:
@@ -236,13 +323,16 @@ const roomInventory = {
             }
 
         ]
+
     },
 
 
     "20": {
 
         room: "Room 20",
+
         building: "Building 17",
+
         adviser: "Teacher C",
 
         photo:
@@ -293,9 +383,61 @@ const roomInventory = {
             }
 
         ]
+
     }
 
 };
+
+
+/* =========================================================
+   LOAD SAVED INVENTORY
+========================================================= */
+
+function loadSavedInventory() {
+
+    const savedInventory =
+        localStorage.getItem(
+            "buildSafeInventory"
+        );
+
+    if (!savedInventory) {
+        return;
+    }
+
+    try {
+
+        const savedData =
+            JSON.parse(
+                savedInventory
+            );
+
+        Object.keys(savedData).forEach(
+            function (roomNumber) {
+
+                if (
+                    roomInventory[roomNumber] &&
+                    savedData[roomNumber] &&
+                    savedData[roomNumber].items
+                ) {
+
+                    roomInventory[roomNumber].items =
+                        savedData[roomNumber].items;
+
+                }
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load saved inventory:",
+            error
+        );
+
+    }
+
+}
 
 
 /* =========================================================
@@ -309,7 +451,10 @@ function getCurrentRoomNumber() {
             window.location.search
         );
 
-    return params.get("room") || "18";
+    return (
+        params.get("room") ||
+        "18"
+    );
 }
 
 
@@ -329,30 +474,44 @@ function loadInventory() {
 
 
     const roomTitle =
-        document.getElementById("roomTitle");
+        document.getElementById(
+            "roomTitle"
+        );
 
     const buildingName =
-        document.getElementById("buildingName");
+        document.getElementById(
+            "buildingName"
+        );
 
     const roomAdviser =
-        document.getElementById("roomAdviser");
+        document.getElementById(
+            "roomAdviser"
+        );
 
     const classroomPhoto =
-        document.getElementById("classroomPhoto");
+        document.getElementById(
+            "classroomPhoto"
+        );
 
     const roomPhoto =
-        document.getElementById("roomPhoto");
+        document.getElementById(
+            "roomPhoto"
+        );
 
 
     if (roomTitle) {
+
         roomTitle.textContent =
             room.room;
+
     }
 
 
     if (buildingName) {
+
         buildingName.textContent =
             room.building;
+
     }
 
 
@@ -362,24 +521,32 @@ function loadInventory() {
             room.building +
             " | Room Adviser: " +
             room.adviser;
+
     }
 
 
     if (classroomPhoto) {
+
         classroomPhoto.src =
             room.photo;
+
     }
 
 
     if (roomPhoto) {
+
         roomPhoto.src =
             room.photo;
+
     }
 
 
-    loadInventoryTable(room);
+    loadInventoryTable(
+        room
+    );
 
     loadTeacherReports();
+
 }
 
 
@@ -393,21 +560,37 @@ function getInventoryMaintenanceStatus(
 ) {
 
     const reports =
-        getRoomReports(roomNumber);
+        getRoomReports(
+            roomNumber
+        );
+
 
     const matchingReports =
-        reports.filter(function (report) {
+        reports.filter(
+            function (report) {
 
-            return String(report.item)
-                .toLowerCase()
-                === String(itemName)
-                    .toLowerCase();
+                return String(
+                    report.item
+                ).toLowerCase() ===
+                String(
+                    itemName
+                ).toLowerCase();
 
-        });
+            }
+        );
 
 
-    if (matchingReports.length === 0) {
-        return "No Report";
+    if (
+        matchingReports.length ===
+        0
+    ) {
+
+        return `
+            <span class="inventory-status no-report">
+                No Report
+            </span>
+        `;
+
     }
 
 
@@ -429,13 +612,39 @@ function getInventoryMaintenanceStatus(
         matchingReports[0];
 
 
-    if (report.verification !== "Verified") {
-        return "Pending Verification";
+    if (
+        report.verification !==
+        "Verified"
+    ) {
+
+        return `
+            <span class="inventory-status pending-verification">
+                Pending Verification
+            </span>
+        `;
+
     }
 
 
-    return report.status ||
-        "Scheduled";
+    const status =
+        report.status ||
+        "Awaiting Status";
+
+
+    const statusClass =
+        status
+            .toLowerCase()
+            .replace(
+                /\s+/g,
+                "-"
+            );
+
+
+    return `
+        <span class="inventory-status ${statusClass}">
+            ${status}
+        </span>
+    `;
 }
 
 
@@ -453,7 +662,8 @@ function loadInventoryTable(room) {
     if (!tableBody) return;
 
 
-    tableBody.innerHTML = "";
+    tableBody.innerHTML =
+        "";
 
 
     const roomNumber =
@@ -464,7 +674,9 @@ function loadInventoryTable(room) {
         function (item, index) {
 
             const row =
-                document.createElement("tr");
+                document.createElement(
+                    "tr"
+                );
 
 
             const maintenanceStatus =
@@ -515,10 +727,13 @@ function loadInventoryTable(room) {
             `;
 
 
-            tableBody.appendChild(row);
+            tableBody.appendChild(
+                row
+            );
 
         }
     );
+
 }
 
 
@@ -541,14 +756,20 @@ function enableInventoryEdit() {
 
     quantityInputs.forEach(
         function (input) {
-            input.disabled = false;
+
+            input.disabled =
+                false;
+
         }
     );
 
 
     damageInputs.forEach(
         function (input) {
-            input.disabled = false;
+
+            input.disabled =
+                false;
+
         }
     );
 
@@ -565,15 +786,20 @@ function enableInventoryEdit() {
 
 
     if (updateButton) {
+
         updateButton.style.display =
             "none";
+
     }
 
 
     if (saveButton) {
+
         saveButton.style.display =
             "inline-block";
+
     }
+
 }
 
 
@@ -607,10 +833,22 @@ function saveInventoryChanges() {
         function (input) {
 
             const index =
-                Number(input.dataset.index);
+                Number(
+                    input.dataset.index
+                );
+
+            const quantity =
+                Number(
+                    input.value
+                );
 
             room.items[index].quantity =
-                Number(input.value);
+                Number.isFinite(
+                    quantity
+                )
+                    ? quantity
+                    : 0;
+
         }
     );
 
@@ -619,24 +857,41 @@ function saveInventoryChanges() {
         function (input) {
 
             const index =
-                Number(input.dataset.index);
+                Number(
+                    input.dataset.index
+                );
 
             room.items[index].damage =
                 input.value;
+
         }
+    );
+
+
+    localStorage.setItem(
+        "buildSafeInventory",
+        JSON.stringify(
+            roomInventory
+        )
     );
 
 
     quantityInputs.forEach(
         function (input) {
-            input.disabled = true;
+
+            input.disabled =
+                true;
+
         }
     );
 
 
     damageInputs.forEach(
         function (input) {
-            input.disabled = true;
+
+            input.disabled =
+                true;
+
         }
     );
 
@@ -653,20 +908,25 @@ function saveInventoryChanges() {
 
 
     if (updateButton) {
+
         updateButton.style.display =
             "inline-block";
+
     }
 
 
     if (saveButton) {
+
         saveButton.style.display =
             "none";
+
     }
 
 
     alert(
         "Inventory changes saved."
     );
+
 }
 
 
@@ -675,7 +935,9 @@ function saveInventoryChanges() {
 ========================================================= */
 
 function saveInventory() {
+
     saveInventoryChanges();
+
 }
 
 
@@ -698,8 +960,11 @@ function changeRoomPhoto(event) {
                 "input"
             );
 
-        input.type = "file";
-        input.accept = "image/*";
+        input.type =
+            "file";
+
+        input.accept =
+            "image/*";
 
 
         input.addEventListener(
@@ -723,6 +988,7 @@ function changeRoomPhoto(event) {
     const file =
         input.files[0];
 
+
     if (!file) return;
 
 
@@ -745,61 +1011,97 @@ function changeRoomPhoto(event) {
 
 
             if (classroomPhoto) {
+
                 classroomPhoto.src =
                     event.target.result;
+
             }
 
 
             if (roomPhoto) {
+
                 roomPhoto.src =
                     event.target.result;
+
             }
 
         };
 
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+        file
+    );
+
 }
 
 
 /* =========================================================
-   REPORT STORAGE
+   REPORT STORAGE — PRESERVE REPORT HISTORY
 ========================================================= */
 
-const REPORT_STORAGE_KEY =
-    "buildSafeMaintenanceReports";
-
+const REPORT_STORAGE_KEY = "buildSafeMaintenanceReports";
+const REPORT_STORAGE_BACKUP_KEY =
+    "buildSafeMaintenanceReportsBackup";
 
 function getReports() {
+    const saved = localStorage.getItem(REPORT_STORAGE_KEY);
 
-    const saved =
-        localStorage.getItem(
-            REPORT_STORAGE_KEY
-        );
+    if (saved) {
+        try {
+            const reports = JSON.parse(saved);
 
-
-    if (!saved) {
-        return [];
+            if (Array.isArray(reports)) {
+                return reports;
+            }
+        } catch (error) {
+            console.error("Main report storage could not be read.");
+        }
     }
 
+    // Recover from the last saved backup if the main data is unreadable.
+    const backup = localStorage.getItem(REPORT_STORAGE_BACKUP_KEY);
 
-    try {
+    if (backup) {
+        try {
+            const reports = JSON.parse(backup);
 
-        return JSON.parse(saved);
+            if (Array.isArray(reports)) {
+                localStorage.setItem(
+                    REPORT_STORAGE_KEY,
+                    JSON.stringify(reports)
+                );
 
-    } catch (error) {
-
-        return [];
-
+                return reports;
+            }
+        } catch (error) {
+            console.error("Report backup could not be read.");
+        }
     }
+
+    return [];
 }
 
-
 function saveReports(reports) {
+    if (!Array.isArray(reports)) {
+        console.error("Reports were not saved: invalid data.");
+        return;
+    }
+
+    const serialized = JSON.stringify(reports);
+
+    // Keep the latest valid saved list as a recovery copy.
+    try {
+        localStorage.setItem(
+            REPORT_STORAGE_BACKUP_KEY,
+            serialized
+        );
+    } catch (error) {
+        console.error("Could not save report backup:", error);
+    }
 
     localStorage.setItem(
         REPORT_STORAGE_KEY,
-        JSON.stringify(reports)
+        serialized
     );
 }
 
@@ -811,16 +1113,26 @@ function saveReports(reports) {
 function formatDate(dateValue) {
 
     if (!dateValue) {
+
         return "—";
+
     }
 
 
     const date =
-        new Date(dateValue);
+        new Date(
+            dateValue
+        );
 
 
-    if (isNaN(date.getTime())) {
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
         return dateValue;
+
     }
 
 
@@ -832,6 +1144,7 @@ function formatDate(dateValue) {
             year: "numeric"
         }
     );
+
 }
 
 
@@ -842,16 +1155,26 @@ function formatDate(dateValue) {
 function formatDateTime(dateValue) {
 
     if (!dateValue) {
+
         return "—";
+
     }
 
 
     const date =
-        new Date(dateValue);
+        new Date(
+            dateValue
+        );
 
 
-    if (isNaN(date.getTime())) {
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
         return dateValue;
+
     }
 
 
@@ -865,6 +1188,7 @@ function formatDateTime(dateValue) {
             minute: "2-digit"
         }
     );
+
 }
 
 
@@ -875,7 +1199,9 @@ function formatDateTime(dateValue) {
 function submitReport(event) {
 
     if (event) {
+
         event.preventDefault();
+
     }
 
 
@@ -884,7 +1210,8 @@ function submitReport(event) {
 
 
     const room =
-        "Room " + roomNumber;
+        "Room " +
+        roomNumber;
 
 
     const itemElement =
@@ -944,6 +1271,7 @@ function submitReport(event) {
         );
 
         return;
+
     }
 
 
@@ -996,20 +1324,28 @@ function submitReport(event) {
         statusHistory: [
 
             {
+
                 status:
                     "Report Submitted",
 
                 date:
                     now
+
             }
 
         ]
+
     };
 
 
-    reports.push(newReport);
+    reports.push(
+        newReport
+    );
 
-    saveReports(reports);
+
+    saveReports(
+        reports
+    );
 
 
     alert(
@@ -1017,8 +1353,13 @@ function submitReport(event) {
     );
 
 
-    if (event && event.target) {
+    if (
+        event &&
+        event.target
+    ) {
+
         event.target.reset();
+
     }
 
 
@@ -1027,6 +1368,7 @@ function submitReport(event) {
     updateReportRoomBadges();
 
     loadInventory();
+
 }
 
 
@@ -1035,35 +1377,48 @@ function submitReport(event) {
 ========================================================= */
 
 function getRoomReports(roomNumber) {
+    return getReports().filter(function (report) {
+        let savedRoomNumber = report.roomNumber;
 
-    const reports =
-        getReports();
+        if (
+            savedRoomNumber === undefined ||
+            savedRoomNumber === null ||
+            savedRoomNumber === ""
+        ) {
+            const match = String(report.room || "").match(
+                /room\s*(\d+)/i
+            );
 
-
-    return reports.filter(
-        function (report) {
-
-            return String(
-                report.roomNumber
-            ) === String(roomNumber);
-
+            savedRoomNumber = match ? match[1] : "";
         }
-    );
+
+        return String(savedRoomNumber) === String(roomNumber);
+    });
 }
 
 
 /* =========================================================
    GET LATEST ROOM REPORT
+   Used only for inventory item status.
 ========================================================= */
 
-function getLatestRoomReport(roomNumber) {
+function getLatestRoomReport(
+    roomNumber
+) {
 
     const reports =
-        getRoomReports(roomNumber);
+        getRoomReports(
+            roomNumber
+        );
 
 
-    if (reports.length === 0) {
+    if (
+        reports.length ===
+        0
+    ) {
+
         return null;
+
     }
 
 
@@ -1082,6 +1437,7 @@ function getLatestRoomReport(roomNumber) {
 
 
     return reports[0];
+
 }
 
 
@@ -1089,21 +1445,27 @@ function getLatestRoomReport(roomNumber) {
    GET LAST REPORT UPDATE
 ========================================================= */
 
-function getLastReportUpdate(report) {
+function getLastReportUpdate(
+    report
+) {
 
     if (!report) {
+
         return null;
+
     }
 
 
     if (
         report.statusHistory &&
-        report.statusHistory.length > 0
+        report.statusHistory.length >
+        0
     ) {
 
         return report.statusHistory[
             report.statusHistory.length - 1
         ];
+
     }
 
 
@@ -1115,7 +1477,9 @@ function getLastReportUpdate(report) {
 
         date:
             report.dateReported
+
     };
+
 }
 
 
@@ -1139,10 +1503,15 @@ function loadTeacherReports() {
 
 
     const reports =
-        getRoomReports(roomNumber);
+        getRoomReports(
+            roomNumber
+        );
 
 
-    if (reports.length === 0) {
+    if (
+        reports.length ===
+        0
+    ) {
 
         container.innerHTML = `
 
@@ -1157,6 +1526,7 @@ function loadTeacherReports() {
         `;
 
         return;
+
     }
 
 
@@ -1174,27 +1544,35 @@ function loadTeacherReports() {
     );
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     reports.forEach(
         function (report) {
 
             const lastUpdate =
-                getLastReportUpdate(report);
+                getLastReportUpdate(
+                    report
+                );
 
 
             const currentStatus =
-                report.verification !== "Verified"
+                report.verification !==
+                "Verified"
+
                     ? "Pending Verification"
+
                     : (
                         report.status ||
-                        "Scheduled"
+                        "Awaiting Status"
                     );
 
 
             const row =
-                document.createElement("tr");
+                document.createElement(
+                    "tr"
+                );
 
 
             row.innerHTML = `
@@ -1203,16 +1581,13 @@ function loadTeacherReports() {
                     ${report.item || "—"}
                 </td>
 
-
                 <td>
                     ${report.quantity || "—"}
                 </td>
 
-
                 <td>
                     ${currentStatus}
                 </td>
-
 
                 <td>
                     ${
@@ -1227,7 +1602,9 @@ function loadTeacherReports() {
             `;
 
 
-            container.appendChild(row);
+            container.appendChild(
+                row
+            );
 
         }
     );
@@ -1254,7 +1631,14 @@ function loadHeadReports() {
         getReports();
 
 
-    if (reports.length === 0) {
+    container.innerHTML =
+        "";
+
+
+    if (
+        reports.length ===
+        0
+    ) {
 
         container.innerHTML = `
 
@@ -1273,15 +1657,24 @@ function loadHeadReports() {
         `;
 
         return;
+
     }
-
-
-    container.innerHTML = "";
 
 
     reports
         .slice()
-        .reverse()
+        .sort(
+            function (a, b) {
+
+                return new Date(
+                    b.dateReported
+                ) -
+                new Date(
+                    a.dateReported
+                );
+
+            }
+        )
         .forEach(
             function (report) {
 
@@ -1293,6 +1686,11 @@ function loadHeadReports() {
 
                 reportBox.className =
                     "maintenance-report";
+
+
+                const maintenanceStatus =
+                    report.status ||
+                    "Awaiting Status";
 
 
                 reportBox.innerHTML = `
@@ -1332,7 +1730,7 @@ function loadHeadReports() {
                                 Reported:
                             </strong>
 
-                            ${formatDate(
+                            ${formatDateTime(
                                 report.dateReported
                             )}
                         </p>
@@ -1350,9 +1748,15 @@ function loadHeadReports() {
                                 Maintenance:
                             </strong>
 
-                            ${report.status ||
-                                "Not Started"}
+                            ${maintenanceStatus}
                         </p>
+
+                        <button
+                            type="button"
+                            onclick="openReportById('${report.id}')"
+                        >
+                            View Report
+                        </button>
 
                     </div>
 
@@ -1365,57 +1769,107 @@ function loadHeadReports() {
 
             }
         );
+
 }
 
-function updateReportRoomBadges() {
 
+function openReport(room) {
+    const roomReports = getRoomReports(room);
+
+    if (roomReports.length === 0) {
+        alert("Wala pang report para sa Room " + room + ".");
+        return;
+    }
+
+    // Pending verification reports come first.
+    const sortedReports = roomReports.slice().sort(function (a, b) {
+        const aPending =
+            a.verification !== "Verified";
+
+        const bPending =
+            b.verification !== "Verified";
+
+        if (aPending !== bPending) {
+            return aPending ? -1 : 1;
+        }
+
+        return new Date(b.dateReported || 0) -
+            new Date(a.dateReported || 0);
+    });
+
+    openReportById(sortedReports[0].id);
+}
+
+function openReportById(reportId) {
+    if (!reportId) {
+        alert("Walang napiling report.");
+        return;
+    }
+
+    window.location.href =
+        "reports-inside.html?id=" +
+        encodeURIComponent(reportId);
+}
+
+
+/* =========================================================
+   SCHOOL HEAD REPORT BADGES
+========================================================= */
+
+function updateReportRoomBadges() {
     const reports = getReports();
     const rooms = ["18", "19", "20"];
+    let totalNewRooms = 0;
 
-    let newCount = 0;
-
-    rooms.forEach(function (room) {
-
-        const badge = document.getElementById("newUpdate" + room);
+    rooms.forEach(function (roomNumber) {
+        const badge = document.getElementById(
+            "newUpdate" + roomNumber
+        );
 
         if (!badge) return;
 
-        const roomReports = reports.filter(function (report) {
-            return String(report.roomNumber) === String(room);
+        const hasPendingReport = reports.some(function (report) {
+            // Read the room number, including values like "Room 18".
+            const roomValue = [
+                report.roomNumber,
+                report.room,
+                report.classroom,
+                report.roomId
+            ].find(function (value) {
+                return value !== undefined &&
+                    value !== null &&
+                    String(value).trim() !== "";
+            });
+
+            const match = String(roomValue || "").match(/\d+/);
+            const savedRoomNumber = match ? match[0] : "";
+
+            const verification = String(
+                report.verification || "Pending Verification"
+            ).trim().toLowerCase();
+
+            return savedRoomNumber === roomNumber &&
+                verification !== "verified";
         });
 
-        if (roomReports.length === 0) {
-            badge.style.display = "none";
-            return;
-        }
+        badge.textContent = "NEW UPDATE";
+        badge.style.display = hasPendingReport
+            ? "inline-block"
+            : "none";
 
-        roomReports.sort(function (a, b) {
-            return new Date(b.dateReported) - new Date(a.dateReported);
-        });
-
-        const latest = roomReports[0];
-
-        if (latest.verification === "Pending Verification") {
-
-            badge.textContent = "NEW UPDATE";
-            badge.style.display = "inline-block";
-
-            newCount++;
-
-        } else {
-
-            badge.style.display = "none";
+        if (hasPendingReport) {
+            totalNewRooms++;
         }
     });
 
+    // Keep the total badge visible, including when the count is zero.
     const totalBadge = document.getElementById("newReportBadge");
 
     if (totalBadge) {
-        totalBadge.textContent = newCount + " New Updates";
+        totalBadge.textContent = totalNewRooms + " New Updates";
+        totalBadge.style.display = "inline-block";
     }
-
 }
-
 /* =========================================================
    SCHOOL HEAD SUMMARY
 ========================================================= */
@@ -1448,8 +1902,10 @@ function updateHeadSummary() {
 
 
     if (total) {
+
         total.textContent =
             reports.length;
+
     }
 
 
@@ -1496,8 +1952,8 @@ function updateHeadSummary() {
             ).length;
 
     }
-}
 
+}
 
 /* =========================================================
    VERIFY CURRENT REPORT
@@ -1508,10 +1964,8 @@ function verifyCurrentReport() {
     const roomNumber =
         getCurrentRoomNumber();
 
-
     const reports =
         getReports();
-
 
     const roomReports =
         reports.filter(
@@ -1524,7 +1978,6 @@ function verifyCurrentReport() {
             }
         );
 
-
     if (roomReports.length === 0) {
 
         alert(
@@ -1533,7 +1986,6 @@ function verifyCurrentReport() {
 
         return;
     }
-
 
     roomReports.sort(
         function (a, b) {
@@ -1548,10 +2000,8 @@ function verifyCurrentReport() {
         }
     );
 
-
     const report =
         roomReports[0];
-
 
     if (
         report.verification ===
@@ -1565,183 +2015,134 @@ function verifyCurrentReport() {
         return;
     }
 
-
     const now =
         new Date().toISOString();
 
 
-    report.verification =
-        "Verified";
+    /* =====================================================
+       ADD REPORTED DEFECTS TO INVENTORY
+    ===================================================== */
 
+    const room =
+        roomInventory[roomNumber];
 
-    report.verifiedDate =
-        now;
+    if (room && room.items) {
 
+        const matchingItem =
+            room.items.find(
+                function (item) {
 
-    if (!report.status) {
+                    return String(
+                        item.item
+                    ).toLowerCase()
+                    ===
+                    String(
+                        report.item
+                    ).toLowerCase();
 
-        report.status =
-            "Scheduled";
-
-
-        if (!report.statusHistory) {
-            report.statusHistory = [];
-        }
-
-
-        report.statusHistory.push({
-
-            status:
-                "Scheduled",
-
-            date:
-                now
-
-        });
-
-    }
-
-
-    saveReports(reports);
-
-
-    loadReportDetails();
-
-    loadHeadReports();
-
-    updateReportRoomBadges();
-
-    updateHeadSummary();
-
-}
-
-
-/* =========================================================
-   UPDATE MAINTENANCE STATUS
-========================================================= */
-
-function updateCurrentReportStatus(newStatus) {
-
-    const roomNumber =
-        getCurrentRoomNumber();
-
-
-    if (!newStatus) return;
-
-
-    const reports =
-        getReports();
-
-
-    const roomReports =
-        reports.filter(
-            function (report) {
-
-                return String(
-                    report.roomNumber
-                ) === String(roomNumber);
-
-            }
-        );
-
-
-    if (roomReports.length === 0) {
-
-        alert(
-            "No report found for this room."
-        );
-
-        return;
-    }
-
-
-    roomReports.sort(
-        function (a, b) {
-
-            return new Date(
-                b.dateReported
-            ) -
-            new Date(
-                a.dateReported
+                }
             );
 
+        if (matchingItem) {
+
+            const currentDefects =
+                Number(
+                    matchingItem.damage
+                ) || 0;
+
+            const reportedDefects =
+                Number(
+                    report.quantity
+                ) || 0;
+
+            matchingItem.damage =
+                currentDefects +
+                reportedDefects;
+
         }
-    );
 
 
-    const report =
-        roomReports[0];
+        /* SAVE UPDATED INVENTORY */
 
-
-    if (
-        report.verification !==
-        "Verified"
-    ) {
-
-        alert(
-            "Please verify the report first."
+        localStorage.setItem(
+            "buildSafeInventory",
+            JSON.stringify(roomInventory)
         );
 
-        loadReportDetails();
-
-        return;
     }
+/* =====================================================
+   VERIFY REPORT
+===================================================== */
+
+report.verification =
+    "Verified";
+
+report.verifiedDate =
+    now;
 
 
-    const now =
-        new Date().toISOString();
+/* =====================================================
+   SET INITIAL STATUS TO SCHEDULED
+===================================================== */
 
+if (!report.status) {
 
     report.status =
-        newStatus;
-
+        "Select Status";
 
     if (!report.statusHistory) {
-        report.statusHistory = [];
-    }
 
+        report.statusHistory = [];
+
+    }
 
     report.statusHistory.push({
 
         status:
-            newStatus,
+            "Select Status",
 
         date:
             now
 
     });
 
-
-    if (
-        newStatus ===
-        "Completed"
-    ) {
-
-        report.actualCompletion =
-            now;
-
-    }
-
-
-    saveReports(reports);
-
-
-    loadReportDetails();
-
-    loadHeadReports();
-
-    updateReportRoomBadges();
-
-    updateHeadSummary();
-
 }
 
 
+/* =====================================================
+   SAVE REPORT
+===================================================== */
+
+saveReports(reports);
+
+
+/* =====================================================
+   REFRESH EVERYTHING
+===================================================== */
+
+loadInventory();
+
+loadReportDetails();
+
+loadHeadReports();
+
+updateReportRoomBadges();
+
+updateHeadSummary();
+
+
+alert(
+    "Report verified successfully. Defect count has been updated."
+);
+
+}
 /* =========================================================
    COMPATIBILITY FUNCTION
 ========================================================= */
 
-function changeRepairStatus(status) {
+function changeRepairStatus(
+    status
+) {
 
     updateCurrentReportStatus(
         status
@@ -1749,37 +2150,265 @@ function changeRepairStatus(status) {
 
 }
 
+/* =========================================================
+   UPDATE MAINTENANCE STATUS
+========================================================= */
+
+function updateCurrentReportStatus(newStatus) {
+    if (!newStatus) return;
+
+    const allowedStatuses = [
+        "Scheduled",
+        "In Progress",
+        "Completed"
+    ];
+
+    if (!allowedStatuses.includes(newStatus)) {
+        alert("Invalid maintenance status.");
+        return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const reportId = params.get("id");
+
+    if (!reportId) {
+        alert("Walang napiling report.");
+        return;
+    }
+
+    const reports = getReports();
+    const report = reports.find(function (item) {
+        return String(item.id) === String(reportId);
+    });
+
+    if (!report) {
+        alert("Hindi makita ang report.");
+        return;
+    }
+
+    if (report.verification !== "Verified") {
+        alert("I-verify muna ang report bago baguhin ang maintenance status.");
+        loadReportDetails();
+        return;
+    }
+
+    if (report.status === newStatus) return;
+
+    const now = new Date().toISOString();
+    const roomNumber = String(
+        report.roomNumber ||
+        String(report.room || "").replace(/\D/g, "")
+    );
+
+    report.status = newStatus;
+
+    if (!Array.isArray(report.statusHistory)) {
+        report.statusHistory = [];
+    }
+
+    report.statusHistory.push({
+        status: newStatus,
+        date: now
+    });
+
+    if (newStatus === "Completed") {
+        const savedText = localStorage.getItem("buildSafeInventory");
+
+        let savedInventory = {};
+
+        try {
+            savedInventory = savedText ? JSON.parse(savedText) : {};
+        } catch (error) {
+            console.error("Unable to read saved inventory:", error);
+            alert("Hindi mabasa ang saved inventory.");
+            return;
+        }
+
+        const savedRoom = savedInventory[roomNumber];
+
+        if (!savedRoom || !Array.isArray(savedRoom.items)) {
+            alert("Hindi makita ang inventory para sa Room " + roomNumber + ".");
+            return;
+        }
+
+        const matchingItem = savedRoom.items.find(function (item) {
+            return String(item.item).trim().toLowerCase() ===
+                String(report.item).trim().toLowerCase();
+        });
+
+        if (!matchingItem) {
+            alert("Hindi makita ang item na " + report.item +
+                " sa inventory ng Room " + roomNumber + ".");
+            return;
+        }
+
+        matchingItem.damage = "0";
+
+        localStorage.setItem(
+            "buildSafeInventory",
+            JSON.stringify(savedInventory)
+        );
+
+        if (roomInventory[roomNumber] &&
+            Array.isArray(roomInventory[roomNumber].items)) {
+            const currentItem = roomInventory[roomNumber].items.find(function (item) {
+                return String(item.item).trim().toLowerCase() ===
+                    String(report.item).trim().toLowerCase();
+            });
+
+            if (currentItem) {
+                currentItem.damage = "0";
+            }
+        }
+
+        report.actualCompletion = now;
+    }
+
+    saveReports(reports);
+
+    if (typeof loadSavedInventory === "function") {
+        loadSavedInventory();
+    }
+
+    if (typeof loadInventory === "function") {
+        loadInventory();
+    }
+
+    if (typeof loadReportDetails === "function") {
+        loadReportDetails();
+    }
+
+    if (typeof loadHeadReports === "function") {
+        loadHeadReports();
+    }
+
+    if (typeof updateReportRoomBadges === "function") {
+        updateReportRoomBadges();
+    }
+
+    if (typeof updateHeadSummary === "function") {
+        updateHeadSummary();
+    }
+
+    
+    /* =====================================================
+       WHEN COMPLETED, RESET MATCHING ITEM DAMAGE TO 0
+    ===================================================== */
+
+    if (newStatus === "Completed") {
+        const savedInventoryText =
+            localStorage.getItem("buildSafeInventory");
+
+        let savedInventory = {};
+
+        try {
+            savedInventory = savedInventoryText
+                ? JSON.parse(savedInventoryText)
+                : {};
+        } catch (error) {
+            console.error("Unable to read saved inventory:", error);
+            alert("Hindi mabasa ang saved inventory.");
+            return;
+        }
+
+        const savedRoom = savedInventory[roomNumber];
+
+        if (savedRoom && Array.isArray(savedRoom.items)) {
+            const matchingItem = savedRoom.items.find(function (item) {
+                return String(item.item).trim().toLowerCase() ===
+                    String(report.item).trim().toLowerCase();
+            });
+
+            if (matchingItem) {
+                matchingItem.damage = "0";
+
+                localStorage.setItem(
+                    "buildSafeInventory",
+                    JSON.stringify(savedInventory)
+                );
+
+                if (
+                    roomInventory[roomNumber] &&
+                    Array.isArray(roomInventory[roomNumber].items)
+                ) {
+                    const currentItem = roomInventory[roomNumber].items.find(
+                        function (item) {
+                            return String(item.item).trim().toLowerCase() ===
+                                String(report.item).trim().toLowerCase();
+                        }
+                    );
+
+                    if (currentItem) {
+                        currentItem.damage = "0";
+                    }
+                }
+            } else {
+                console.warn("Matching inventory item not found:", report.item);
+            }
+        } else {
+            console.warn("Saved room inventory not found:", roomNumber);
+        }
+
+        report.actualCompletion = now;
+    }
+
+
+    /* SAVE REPORT */
+
+    saveReports(reports);
+
+
+    /* REFRESH EVERYTHING */
+
+    loadInventory();
+
+    loadReportDetails();
+
+    loadHeadReports();
+
+    updateReportRoomBadges();
+
+    updateHeadSummary();
+
+}
 
 /* =========================================================
    VERIFICATION CONTROLS
 ========================================================= */
 
-function updateVerificationControls(report) {
+function updateVerificationControls(
+    report
+) {
 
     const button =
         document.getElementById(
             "verifyReportButton"
         );
 
+
     const verification =
         document.getElementById(
             "detailVerification"
         );
+
 
     const verifiedDate =
         document.getElementById(
             "detailVerifiedDate"
         );
 
+
     const badge =
         document.getElementById(
             "reportVerificationBadge"
         );
 
+
     const controls =
         document.getElementById(
             "maintenanceControls"
         );
+
 
     const locked =
         document.getElementById(
@@ -1874,7 +2503,10 @@ function updateVerificationControls(report) {
     }
 
 
-    if (controls && locked) {
+    if (
+        controls &&
+        locked
+    ) {
 
         if (
             report.verification ===
@@ -1909,9 +2541,11 @@ function updateVerificationControls(report) {
     if (statusSelect) {
 
         statusSelect.value =
-            report.status || "";
+            report.status ||
+            "";
 
     }
+
 }
 
 
@@ -1919,7 +2553,9 @@ function updateVerificationControls(report) {
    MAINTENANCE TIMELINE
 ========================================================= */
 
-function createMaintenanceTimeline(report) {
+function createMaintenanceTimeline(
+    report
+) {
 
     if (!report) {
 
@@ -1928,20 +2564,26 @@ function createMaintenanceTimeline(report) {
                 No history available.
             </p>
         `;
+
     }
 
 
     const history =
-        report.statusHistory || [];
+        report.statusHistory ||
+        [];
 
 
-    if (history.length === 0) {
+    if (
+        history.length ===
+        0
+    ) {
 
         return `
             <p>
                 No history available.
             </p>
         `;
+
     }
 
 
@@ -1953,7 +2595,8 @@ function createMaintenanceTimeline(report) {
 
                     <div class="timeline-item">
 
-                        <div class="timeline-dot"></div>
+                        <div class="timeline-dot">
+                        </div>
 
                         <div class="timeline-content">
 
@@ -1976,6 +2619,7 @@ function createMaintenanceTimeline(report) {
             }
         )
         .join("");
+
 }
 
 
@@ -1994,15 +2638,42 @@ function loadReportDetails() {
     if (!detailRoom) return;
 
 
-    const roomNumber =
-        getCurrentRoomNumber();
+    /* =====================================================
+       GET SPECIFIC REPORT ID
+    ===================================================== */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const reportId =
+        params.get("id");
+
+
+    const reports =
+        getReports();
 
 
     const report =
-        getLatestRoomReport(
-            roomNumber
+        reports.find(
+            function (item) {
+
+                return String(
+                    item.id
+                ) ===
+                String(
+                    reportId
+                );
+
+            }
         );
 
+
+    /* =====================================================
+       NO REPORT FOUND
+    ===================================================== */
 
     if (!report) {
 
@@ -2011,20 +2682,24 @@ function loadReportDetails() {
                 "detailItem"
             );
 
+
         const quantity =
             document.getElementById(
                 "detailQuantity"
             );
+
 
         const concern =
             document.getElementById(
                 "detailConcern"
             );
 
+
         const reported =
             document.getElementById(
                 "detailReported"
             );
+
 
         const description =
             document.getElementById(
@@ -2033,77 +2708,108 @@ function loadReportDetails() {
 
 
         detailRoom.textContent =
-            "Room " +
-            roomNumber +
-            " • Building 17";
+            "No report selected";
 
 
         if (item) {
-            item.textContent = "—";
+
+            item.textContent =
+                "—";
+
         }
+
 
         if (quantity) {
-            quantity.textContent = "—";
+
+            quantity.textContent =
+                "—";
+
         }
+
 
         if (concern) {
-            concern.textContent = "—";
+
+            concern.textContent =
+                "—";
+
         }
 
+
         if (reported) {
-            reported.textContent = "—";
+
+            reported.textContent =
+                "—";
+
         }
+
 
         if (description) {
 
             description.textContent =
-                "No report has been submitted for this room.";
+                "No report was selected.";
 
         }
 
+
         return;
+
     }
 
+
+    /* =====================================================
+       ROOM INFORMATION
+    ===================================================== */
 
     detailRoom.textContent =
         report.room +
         " • Building 17";
 
 
+    /* =====================================================
+       GET DETAIL ELEMENTS
+    ===================================================== */
+
     const detailItem =
         document.getElementById(
             "detailItem"
         );
+
 
     const detailQuantity =
         document.getElementById(
             "detailQuantity"
         );
 
+
     const detailConcern =
         document.getElementById(
             "detailConcern"
         );
+
 
     const detailReported =
         document.getElementById(
             "detailReported"
         );
 
+
     const detailDescription =
         document.getElementById(
             "detailDescription"
         );
+
 
     const detailStatus =
         document.getElementById(
             "detailStatus"
         );
 
+
     const detailLastUpdated =
         document.getElementById(
             "detailLastUpdated"
         );
+
 
     const timeline =
         document.getElementById(
@@ -2111,21 +2817,34 @@ function loadReportDetails() {
         );
 
 
+    /* =====================================================
+       DISPLAY REPORT INFORMATION
+    ===================================================== */
+
     if (detailItem) {
+
         detailItem.textContent =
-            report.item;
+            report.item ||
+            "—";
+
     }
 
 
     if (detailQuantity) {
+
         detailQuantity.textContent =
-            report.quantity || "—";
+            report.quantity ||
+            "—";
+
     }
 
 
     if (detailConcern) {
+
         detailConcern.textContent =
-            report.concern;
+            report.concern ||
+            "—";
+
     }
 
 
@@ -2150,15 +2869,33 @@ function loadReportDetails() {
 
     if (detailStatus) {
 
-        detailStatus.textContent =
-            report.status ||
-            "Not Started";
+        if (
+            report.verification !==
+            "Verified"
+        ) {
+
+            detailStatus.textContent =
+                "Pending Verification";
+
+        } else {
+
+            detailStatus.textContent =
+                report.status ||
+                "Awaiting Status";
+
+        }
 
     }
 
 
+    /* =====================================================
+       LAST UPDATE
+    ===================================================== */
+
     const lastUpdate =
-        getLastReportUpdate(report);
+        getLastReportUpdate(
+            report
+        );
 
 
     if (detailLastUpdated) {
@@ -2173,10 +2910,18 @@ function loadReportDetails() {
     }
 
 
+    /* =====================================================
+       VERIFICATION CONTROLS
+    ===================================================== */
+
     updateVerificationControls(
         report
     );
 
+
+    /* =====================================================
+       MAINTENANCE TIMELINE
+    ===================================================== */
 
     if (timeline) {
 
@@ -2186,71 +2931,39 @@ function loadReportDetails() {
             );
 
     }
+
 }
 
 
+
 /* =========================================================
-   INITIALIZE
+   INITIALIZE — BUILDSAFE DIHS
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        /* INVENTORY */
+    // LOAD SAVED INVENTORY
+    loadSavedInventory();
 
-        if (
-            document.getElementById(
-                "inventoryTableBody"
-            )
-        ) {
-
-            loadInventory();
-
-        }
-
-
-        /* TEACHER MAINTENANCE HISTORY */
-
-        if (
-            document.getElementById(
-                "maintenanceReports"
-            )
-        ) {
-
-            loadTeacherReports();
-
-        }
-
-
-        /* SCHOOL HEAD REPORTS */
-
-        if (
-            document.getElementById(
-                "newReportBadge"
-            )
-        ) {
-
-            loadHeadReports();
-
-            updateReportRoomBadges();
-
-            updateHeadSummary();
-
-        }
-
-
-        /* REPORT DETAILS */
-
-        if (
-            document.getElementById(
-                "detailRoom"
-            )
-        ) {
-
-            loadReportDetails();
-
-        }
-
+    // INVENTORY PAGE
+    if (document.getElementById("inventoryTableBody")) {
+        loadInventory();
     }
-);
+
+    // TEACHER MAINTENANCE HISTORY
+    if (document.getElementById("maintenanceReports")) {
+        loadTeacherReports();
+    }
+
+    // SCHOOL HEAD DASHBOARD
+    // Call these even if the total notification badge is absent.
+    loadHeadReports();
+    updateReportRoomBadges();
+    updateHeadSummary();
+
+    // REPORT DETAILS PAGE
+    if (document.getElementById("detailRoom")) {
+        loadReportDetails();
+    }
+
+});
