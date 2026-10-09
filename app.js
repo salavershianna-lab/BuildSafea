@@ -113,6 +113,7 @@ function logout() {
 }
 
 
+
 /* =========================================================
    TEACHER DASHBOARD SEARCH
 ========================================================= */
@@ -2966,4 +2967,24 @@ document.addEventListener("DOMContentLoaded", function () {
         loadReportDetails();
     }
 
+    document.addEventListener("DOMContentLoaded", function () {
+    const role = sessionStorage.getItem("buildSafeRole");
+
+    if (role === "schoolHead") {
+        const reportSection =
+            document.getElementById("reportSection");
+
+        const reportsButton =
+            document.getElementById("reportsNavButton");
+
+        if (reportSection) {
+            reportSection.style.display = "none";
+        }
+
+        if (reportsButton) {
+            reportsButton.style.display = "none";
+        }
+    }
+
+});
 });

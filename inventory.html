@@ -45,11 +45,12 @@
 
 
         <button
-            onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
+    id="reportsNavButton"
+    onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
 
-            Reports
+    Reports
 
-        </button>
+</button>
 
 
         <button
@@ -87,12 +88,9 @@
                 </div>
 
 
-                <button
-                    onclick="window.location.href='dashboard.html'">
-
-                    ← Back to Dashboard
-
-                </button>
+            <button onclick="Dashboard()">
+                 ← Back to Dashboard
+</button>
 
             </div>
 
@@ -278,9 +276,9 @@
         ================================================= -->
 
         <div
-            class="inventory-section"
-            id="reportSection">
-
+    class="inventory-section"
+    id="reportSection"
+    data-role="teacher">
 
             <h2>
                 Report a Classroom Defect
